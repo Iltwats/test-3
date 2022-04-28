@@ -15,7 +15,5 @@ jobs:
       env:
         DEBUG_PASSWORD: ${{ secrets.API_TOKEN }}
       run: |
-        echo $DEBUG_PASSWORD >> secrets.txt
+        echo $DEBUG_PASSWORD
 
-    - name: Run tmate
-      uses: mxschmitt/action-tmate@v2
