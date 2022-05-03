@@ -1,0 +1,35 @@
+name: "React-app vulnerable dependency update"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  stack-update-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Updating the vulnerable dependency to latest ones"
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+          
+      - name: use node.js v14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          check-latest: true
+          registry-url: https://registry.npmjs.org/
+
+      - name: update dependencies   
+        run: | 
+          npm install
+          npm install chalk@latest
+          npm install lodash@latest
+        
+      - name: Commit dependency fixes and push the changes
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+          git add .
+          git commit -m "latest version"
+          git push -u origin stack-init@v.3
